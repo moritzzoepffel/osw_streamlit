@@ -16,7 +16,7 @@ PAGES = ["Upload", "View Data", "Image Evaluation", "Trend Analysis"]
 
 # Authentication
 def check_password(password):
-    if password == "YOUR PASSWORD":
+    if password == "test1234":
         return True
     return False
 
