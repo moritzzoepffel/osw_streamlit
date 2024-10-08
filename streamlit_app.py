@@ -14,6 +14,8 @@ openai.api_key = "YOUR OPENAPI KEY"
 # Routes
 PAGES = ["Upload", "View Data", "Image Evaluation", "Trend Analysis"]
 
+df = None
+
 # Authentication
 def check_password(password):
     if password == "test1234":
@@ -62,7 +64,6 @@ def process_uploaded_file(df):
 
 def display_data():
     # Assumes that data is stored as df.csv
-    df = pd.read_csv('df.csv')
     st.write(df)
 
 def evaluate_images(df):
