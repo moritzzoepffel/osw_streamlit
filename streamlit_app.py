@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import pymongo
 from openai import OpenAI
 from concurrent.futures import ThreadPoolExecutor
 import base64
