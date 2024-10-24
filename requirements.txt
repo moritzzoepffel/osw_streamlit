@@ -1,6 +1,5 @@
 pandas
 openai
-base64
 requests
 concurrent.futures
 tqdm
