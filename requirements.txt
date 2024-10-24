@@ -1,8 +1,5 @@
 pandas
 openai
 requests
-tqdm
-json
 beautifulsoup4
-re
 selenium
