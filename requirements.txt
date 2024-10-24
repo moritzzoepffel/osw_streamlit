@@ -1,7 +1,6 @@
 pandas
 openai
 requests
-concurrent.futures
 tqdm
 json
 beautifulsoup4
