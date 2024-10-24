@@ -65,7 +65,7 @@ def handle_file_upload():
         df = upload_excel_file(uploaded_file)
         if df is not None:
             st.session_state.uploaded_df = df
-    if st.button("Clear Uploaded Data"):
+    if st.button("Hochgeladene Daten löschen"):
         st.session_state.uploaded_df = None
 
 
@@ -226,7 +226,7 @@ def main():
     if check_password(st.session_state.password):
         # input for api key
         api_key_input = st.sidebar.text_input("API Key", type="password")
-        if st.sidebar.button("Save API Key"):
+        if st.sidebar.button("API Key sichern"):
             if api_key_input.startswith("sk-"):
                 st.session_state.api_key = api_key_input
             else:
@@ -402,7 +402,7 @@ def chat_bot():
         img_url = f"data:image/{uploaded_image.type.split('/')[-1]};base64,{img_base64}"
         input = f"![Uploaded Image]({img_url})"
     else:
-        input = st.chat_input("Type a message...")
+        input = st.chat_input("Nachricht eingegeben...")
 
     if input:
         client = OpenAI(api_key=st.session_state.api_key)
@@ -476,7 +476,7 @@ def stitch_documents(doc_list):
 
 def download_data():
     st.write("## Daten herunterladen")
-    """Download the uploaded data as a CSV file."""
+    st.write("Fertiges Datenset herunterladen")
     csv = convert_df(st.session_state.uploaded_df)
     st.download_button(
         label="Daten als .csv herunterladen",
