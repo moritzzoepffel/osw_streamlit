@@ -1,6 +1,5 @@
 pandas
 openai
-os
 base64
 requests
 concurrent.futures
