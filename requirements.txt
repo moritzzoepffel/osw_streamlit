@@ -9,4 +9,3 @@ json
 beautifulsoup4
 re
 selenium
-pymongo
