@@ -197,8 +197,12 @@ def display_all_categories(df):
 def display_category(df, category):
     """Display top products for a specific category."""
     category_df = df[df["Kategorie"] == category]
-    num = st.slider("Wie viele Produkte sollen angezeigt werden?", 1, len(category_df), 10)
-    top_ranked = category_df[category_df["Ranking in der Kategorie"].isin(range(1, num+1))]
+    num = st.slider(
+        "Wie viele Produkte sollen angezeigt werden?", 1, len(category_df), 10
+    )
+    top_ranked = category_df[
+        category_df["Ranking in der Kategorie"].isin(range(1, num + 1))
+    ]
     st.write(f"### {category} Top {num}")
     display_images(top_ranked)
     st.write(top_ranked)
@@ -387,11 +391,6 @@ def generate_trend(client, category, category_df):
     return category, completion.choices[0].message.content
 
 
-def encode_image(image_path):
-  with open(image_path, "rb") as image_file:
-    return base64.b64encode(image_file.read()).decode('utf-8')
-    
-
 def chat_bot():
     """Chat bot functionality using OpenAI."""
     st.write("## Chat Bot")
@@ -405,66 +404,40 @@ def chat_bot():
     uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
     if uploaded_image is not None:
-        base64_image = encode_image(uploaded_image)
-        input2 = "Beschreibe das Produkt auf dem Bild"
+        uploaded_image_64 = base64.b64encode(uploaded_image.read()).decode("utf-8")
+        chat_input = "Was ist auf dem Bild zu sehen?"
+        input = {
+            "role": "user",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Was ist auf dem Bild zu sehen?",
+                },
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:image/png;base64,{uploaded_image_64}"},
+                },
+            ],
+        }
     else:
-        input = st.chat_input("Nachricht eingegeben...")
+        chat_input = st.chat_input("Nachricht eingegeben...")
+        input = {"role": "user", "content": chat_input}
 
-    if input2:
+    if chat_input:
         client = OpenAI(api_key=st.session_state.api_key)
         messages_to_send = [
             {
                 "role": "system",
                 "content": "Du bist ein nützlicher Assistent, der dabei hilft Produkte und deren Verpackungen zu beschreiben. Bei der Beschreibung ist zu unterscheiden zwischen der Beschreibung der Verpackung und dem Produkt selbst. Für die Beschreibung der Verpackung sind folgende Dimensionen wichtig: Form der Verpackung, Farbe, ggf. Muster/Bildelemente, die auf der Verpackung (und nicht auf dem Produkt) zu sehen sind, Anzahl der Produkte pro Verpackung. Für die Beschreibung des Produkts sind folgende Dimensionen wichtig: Form des Produkts, Farbe, ggf. Muster/Bildelemente des Produkts, andere besondere Details des Produkts (z.B. Perlen etc.) können genannt werden. Bitte bleibe sachlich und beschreibe nur das, was auf dem Bild zu sehen ist.",
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                      "type": "text",
-                      "text": input,
-                    },
-                    {
-                      "type": "image_url",
-                      "image_url": {
-                        "url":  f"data:image/jpeg;base64,{base64_image}"
-                      },
-                    },
-                  ],
-            },
+            }
         ]
+        messages_to_send.append(input)
+        print(messages_to_send)
         completion = client.chat.completions.create(
             model="gpt-4o-mini", messages=messages_to_send
         )
         st.session_state.chat.append(
-            {"role": "user", "content": input, "timestamp": "now"}
-        )
-        st.session_state.chat.append(
-            {"role": "system", "content": completion.choices[0].message.content}
-        )
-
-    if input:
-        client = OpenAI(api_key=st.session_state.api_key)
-        messages_to_send = [
-            {
-                "role": "system",
-                "content": "Du bist ein nützlicher Assistent, der dabei hilft Produkte und deren Verpackungen zu beschreiben. Bei der Beschreibung ist zu unterscheiden zwischen der Beschreibung der Verpackung und dem Produkt selbst. Für die Beschreibung der Verpackung sind folgende Dimensionen wichtig: Form der Verpackung, Farbe, ggf. Muster/Bildelemente, die auf der Verpackung (und nicht auf dem Produkt) zu sehen sind, Anzahl der Produkte pro Verpackung. Für die Beschreibung des Produkts sind folgende Dimensionen wichtig: Form des Produkts, Farbe, ggf. Muster/Bildelemente des Produkts, andere besondere Details des Produkts (z.B. Perlen etc.) können genannt werden. Bitte bleibe sachlich und beschreibe nur das, was auf dem Bild zu sehen ist.",
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                      "type": "text",
-                      "text": input,
-                    },
-                  ],
-            },
-        ]
-        completion = client.chat.completions.create(
-            model="gpt-4o-mini", messages=messages_to_send
-        )
-        st.session_state.chat.append(
-            {"role": "user", "content": input, "timestamp": "now"}
+            {"role": "user", "content": chat_input, "timestamp": "now"}
         )
         st.session_state.chat.append(
             {"role": "system", "content": completion.choices[0].message.content}
@@ -475,6 +448,9 @@ def chat_bot():
             messages.write(message["content"], unsafe_allow_html=True)
         else:
             messages.write(f"**Du:** {message['content']}")
+
+    if uploaded_image is not None:
+        st.image(uploaded_image, width=200)
 
     if uploaded_image is not None:
         uploaded_image.close()
@@ -522,7 +498,7 @@ def download_data():
     st.write("## Daten herunterladen")
     st.write("Fertige Datensets herunterladen")
     csv_data = convert_df(st.session_state.uploaded_df)
-    csv_trends = convert_df(st.session_state.trend_analysis) 
+    csv_trends = convert_df(st.session_state.trend_analysis)
     col1, col2 = st.columns(2)
     with col1:
         st.download_button(
@@ -537,7 +513,7 @@ def download_data():
             data=csv_trends,
             file_name="trends.csv",
             mime="text/csv",
-        )  
+        )
 
 
 if __name__ == "__main__":
