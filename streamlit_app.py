@@ -164,7 +164,6 @@ def display_data(df):
         )
     st.divider()
     show_products(df)
-    st.write(st.session_state.uploaded_df)
 
 
 def show_products(df):
@@ -192,6 +191,7 @@ def display_all_categories(df):
             category_df["Ranking in der Kategorie"].isin([1, 2, 3])
         ]
         display_images(top_ranked)
+        st.write(df)
 
 
 def display_category(df, category):
@@ -201,6 +201,7 @@ def display_category(df, category):
     top_ranked = category_df[category_df["Ranking in der Kategorie"].isin(range(1, num+1))]
     st.write(f"### {category} Top {num}")
     display_images(top_ranked)
+    st.write(top_ranked)
 
 
 def display_images(df):
