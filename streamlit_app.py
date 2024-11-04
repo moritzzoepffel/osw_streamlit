@@ -405,7 +405,7 @@ def chat_bot():
     uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
     if uploaded_image is not None:
-        base64_image = encode_image(image_path)
+        base64_image = encode_image(uploaded_image)
         input2 = "Beschreibe das Produkt auf dem Bild"
     else:
         input = st.chat_input("Nachricht eingegeben...")
