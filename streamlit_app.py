@@ -479,7 +479,7 @@ def stitch_documents(doc_list):
 
 def download_data():
     st.write("## Daten herunterladen")
-    st.write("Fertiges Datenset herunterladen")
+    st.write("Fertige Datensets herunterladen")
     csv_data = convert_df(st.session_state.uploaded_df)
     csv_trends = convert_df(st.session_state.trend_analysis) 
     col1, col2 = st.columns(2)
