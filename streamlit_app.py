@@ -480,13 +480,23 @@ def stitch_documents(doc_list):
 def download_data():
     st.write("## Daten herunterladen")
     st.write("Fertiges Datenset herunterladen")
-    csv = convert_df(st.session_state.uploaded_df)
-    st.download_button(
-        label="Daten als .csv herunterladen",
-        data=csv,
-        file_name="data.csv",
-        mime="text/csv",
-    )
+    csv_data = convert_df(st.session_state.uploaded_df)
+    csv_trends = convert_df(st.session_state.trend_analysis) 
+    col1, col2 = st.columns(2)
+    with col1:
+        st.download_button(
+            label="Daten als .csv herunterladen",
+            data=csv_data,
+            file_name="data.csv",
+            mime="text/csv",
+        )
+    with col2:
+        st.download_button(
+            label="Daten als .csv herunterladen",
+            data=csv_trends,
+            file_name="trends.csv",
+            mime="text/csv",
+        )  
 
 
 if __name__ == "__main__":
