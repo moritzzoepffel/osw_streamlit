@@ -306,6 +306,7 @@ def evaluate_images(df):
                 st.write(f"**{row['Produktname']}**")
                 st.write(row["Beschreibung"])
             if i % 3 == 1:
+                print("TEst")
                 st.divider()
 
 
