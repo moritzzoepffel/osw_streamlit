@@ -338,7 +338,7 @@ def trend_analysis(df):
         "Hier kann eine Trendanalyse der hochgeladenen Produkte durchgeführt werden."
     )
     if "trend_analysis" in st.session_state:
-        st.write("Trendanalyse wurde bereits durchgeführt")
+        st.success("Trendanalyse wurde bereits durchgeführt")
         cat = st.selectbox(
             "Kategorie",
             ["Alle"] + list(st.session_state.trend_analysis["Kategorie"].unique()),
