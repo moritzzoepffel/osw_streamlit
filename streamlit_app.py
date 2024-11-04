@@ -11,9 +11,9 @@ PAGES = [
     "Daten hochladen",
     "Produkte Anzeigen",
     "Beschreibungen generieren",
-    "Trendanalyse",
+    #"Trendanalyse",
     "Chat Bot",
-    "Dokumente verbinden",
+    #"Dokumente verbinden",
     "Daten herunterladen",
 ]
 
