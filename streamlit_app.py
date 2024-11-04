@@ -191,7 +191,7 @@ def display_all_categories(df):
             category_df["Ranking in der Kategorie"].isin([1, 2, 3])
         ]
         display_images(top_ranked)
-        st.write(df)
+    st.write(df)
 
 
 def display_category(df, category):
