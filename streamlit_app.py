@@ -198,8 +198,8 @@ def display_category(df, category):
     """Display top products for a specific category."""
     category_df = df[df["Kategorie"] == category]
     num = st.slider("Wie viele Produkte sollen angezeigt werden?", 1, len(category_df), 10)
-    top_ranked = category_df[category_df["Ranking in der Kategorie"].isin(range(1, num))]
-    st.write(f"### {category} Top 12")
+    top_ranked = category_df[category_df["Ranking in der Kategorie"].isin(range(1, num+1))]
+    st.write(f"### {category} Top {num+1}")
     display_images(top_ranked)
 
 
