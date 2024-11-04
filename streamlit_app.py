@@ -304,10 +304,9 @@ def evaluate_images(df):
                     unsafe_allow_html=True,
                 )
                 st.write(f"**{row['Produktname']}**")
-                st.write(row["Beschreibung"])
-            if i % 3 == 1:
-                print("TEst")
-                st.divider()
+                with st.expander("Beschreibung"):
+                    st.write(row["Beschreibung"])
+          
 
 
 def generate_description(client, img_url, index):
