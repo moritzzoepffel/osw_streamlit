@@ -387,6 +387,11 @@ def generate_trend(client, category, category_df):
     return category, completion.choices[0].message.content
 
 
+def encode_image(image_path):
+  with open(image_path, "rb") as image_file:
+    return base64.b64encode(image_file.read()).decode('utf-8')
+    
+
 def chat_bot():
     """Chat bot functionality using OpenAI."""
     st.write("## Chat Bot")
@@ -400,12 +405,43 @@ def chat_bot():
     uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
     if uploaded_image is not None:
-        img_bytes = uploaded_image.read()
-        img_base64 = base64.b64encode(img_bytes).decode("utf-8")
-        img_url = f"data:image/{uploaded_image.type.split('/')[-1]};base64,{img_base64}"
-        input = f"![Uploaded Image]({img_url})"
+        base64_image = encode_image(image_path)
+        input2 = "Beschreibe das Produkt auf dem Bild"
     else:
         input = st.chat_input("Nachricht eingegeben...")
+
+    if input2:
+        client = OpenAI(api_key=st.session_state.api_key)
+        messages_to_send = [
+            {
+                "role": "system",
+                "content": "Du bist ein nützlicher Assistent, der dabei hilft Produkte und deren Verpackungen zu beschreiben. Bei der Beschreibung ist zu unterscheiden zwischen der Beschreibung der Verpackung und dem Produkt selbst. Für die Beschreibung der Verpackung sind folgende Dimensionen wichtig: Form der Verpackung, Farbe, ggf. Muster/Bildelemente, die auf der Verpackung (und nicht auf dem Produkt) zu sehen sind, Anzahl der Produkte pro Verpackung. Für die Beschreibung des Produkts sind folgende Dimensionen wichtig: Form des Produkts, Farbe, ggf. Muster/Bildelemente des Produkts, andere besondere Details des Produkts (z.B. Perlen etc.) können genannt werden. Bitte bleibe sachlich und beschreibe nur das, was auf dem Bild zu sehen ist.",
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                      "type": "text",
+                      "text": input,
+                    },
+                    {
+                      "type": "image_url",
+                      "image_url": {
+                        "url":  f"data:image/jpeg;base64,{base64_image}"
+                      },
+                    },
+                  ],
+            },
+        ]
+        completion = client.chat.completions.create(
+            model="gpt-4o-mini", messages=messages_to_send
+        )
+        st.session_state.chat.append(
+            {"role": "user", "content": input, "timestamp": "now"}
+        )
+        st.session_state.chat.append(
+            {"role": "system", "content": completion.choices[0].message.content}
+        )
 
     if input:
         client = OpenAI(api_key=st.session_state.api_key)
@@ -416,7 +452,12 @@ def chat_bot():
             },
             {
                 "role": "user",
-                "content": input,
+                "content": [
+                    {
+                      "type": "text",
+                      "text": input,
+                    },
+                  ],
             },
         ]
         completion = client.chat.completions.create(
