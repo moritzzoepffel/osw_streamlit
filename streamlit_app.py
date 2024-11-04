@@ -293,7 +293,7 @@ def evaluate_images(df):
         my_bar.progress(1.0)
         st.success("Beschreibungen wurden generiert")
         st.rerun()
-    st.write("### Beschreibungen der Top 20 Produkte")
+    st.write("### Beschreibungen der Top 50 Produkte")
     if st.button("Beschreibungen anzeigen"):
         cols = st.columns(3)
         products_with_descriptions = df[df["Beschreibung"] != ""]
@@ -305,6 +305,8 @@ def evaluate_images(df):
                 )
                 st.write(f"**{row['Produktname']}**")
                 st.write(row["Beschreibung"])
+            if i % 3 == 1:
+                st.divider()
 
 
 def generate_description(client, img_url, index):
