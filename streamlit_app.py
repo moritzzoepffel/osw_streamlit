@@ -485,14 +485,14 @@ def download_data():
     col1, col2 = st.columns(2)
     with col1:
         st.download_button(
-            label="Daten als .csv herunterladen",
+            label="Datensatz als csv herunterladen",
             data=csv_data,
             file_name="data.csv",
             mime="text/csv",
         )
     with col2:
         st.download_button(
-            label="Daten als .csv herunterladen",
+            label="Trendanalyse als csv herunterladen",
             data=csv_trends,
             file_name="trends.csv",
             mime="text/csv",
