@@ -324,6 +324,7 @@ def trend_analysis(df):
             for i, row in st.session_state.trend_analysis.iterrows():
                 st.write(f"### {row['Kategorie']}")
                 st.write(row["Trends"])
+                st.divider()
         else:
             st.write(f"### {cat}")
             st.write(
