@@ -138,30 +138,31 @@ def display_data(df):
     """Display the uploaded data and some key metrics."""
     st.write("## Datensatz")
     st.write("### Informationen zum hochgeladenen Datensatz")
-    cols = st.columns(4)
-    with cols[0]:
-        st.metric("Kategorien", df["Kategorie"].nunique())
-    with cols[1]:
-        st.metric("Anzahl von Produkten", len(df))
-    with cols[2]:
-        st.metric("Anzahl von Unique Produkten", df["Produktname"].nunique())
-    with cols[3]:
-        st.metric("Anzahl von Beschreibungen", len(df[df["Beschreibung"] != ""]))
-    with cols[0]:
-        st.metric(
-            "Avg Preis",
-            f"{format(df["Produktpreis"].mean(), ".2f")} €",
-        )
-    with cols[1]:
-        st.metric(
-            "Avg Ranking",
-            f"{format(df["Durchschnittliche Produktbewertung (1=schlechteste Note, 5=beste Note)"].mean(), ".2f")}",
-        )
-    with cols[2]:
-        st.metric(
-            "Avg Abverkaufsmenge",
-            f"{format(df["Abverkaufsmenge"].mean(), ".2f")}",
-        )
+    with st.expander("Informationen anzeigen"):
+        cols = st.columns(4)
+        with cols[0]:
+            st.metric("Kategorien", df["Kategorie"].nunique())
+        with cols[1]:
+            st.metric("Anzahl von Produkten", len(df))
+        with cols[2]:
+            st.metric("Anzahl von Unique Produkten", df["Produktname"].nunique())
+        with cols[3]:
+            st.metric("Anzahl von Beschreibungen", len(df[df["Beschreibung"] != ""]))
+        with cols[0]:
+            st.metric(
+                "Avg Preis",
+                f"{format(df["Produktpreis"].mean(), ".2f")} €",
+            )
+        with cols[1]:
+            st.metric(
+                "Avg Ranking",
+                f"{format(df["Durchschnittliche Produktbewertung (1=schlechteste Note, 5=beste Note)"].mean(), ".2f")}",
+            )
+        with cols[2]:
+            st.metric(
+                "Avg Abverkaufsmenge",
+                f"{format(df["Abverkaufsmenge"].mean(), ".2f")}",
+            )
     st.divider()
     show_products(df)
 
@@ -204,6 +205,24 @@ def display_category(df, category):
         category_df["Ranking in der Kategorie"].isin(range(1, num + 1))
     ]
     st.write(f"### {category} Top {num}")
+    with st.expander("Informationen anzeigen"):
+        cols = st.columns(3)
+        with cols[0]:
+            st.metric(
+                "Avg Preis",
+                f"{format(top_ranked["Produktpreis"].mean(), ".2f")} €",
+            )
+        with cols[1]:
+            st.metric(
+                "Avg Ranking",
+                f"{format(top_ranked["Durchschnittliche Produktbewertung (1=schlechteste Note, 5=beste Note)"].mean(), ".2f")}",
+            )
+        with cols[2]:
+            st.metric(
+                "Avg Abverkaufsmenge",
+                f"{format(top_ranked["Abverkaufsmenge"].mean(), ".2f")}",
+            )
+    st.divider()
     display_images(top_ranked)
     st.write(top_ranked)
 
@@ -432,7 +451,6 @@ def chat_bot():
             }
         ]
         messages_to_send.append(input)
-        print(messages_to_send)
         completion = client.chat.completions.create(
             model="gpt-4o-mini", messages=messages_to_send
         )
