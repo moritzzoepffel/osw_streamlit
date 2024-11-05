@@ -434,6 +434,8 @@ def chat_bot():
     if option == "Bild hochladen":
         messages = st.container(height=300)
         uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+
+        st.write(uploaded_image)
     
         if uploaded_image is not None:
             uploaded_image_64 = base64.b64encode(uploaded_image.read()).decode("utf-8")
@@ -485,6 +487,23 @@ def chat_bot():
         if uploaded_image is not None:
             uploaded_image.close()
 
+    if option == "Text zu Bild":
+        st.error("Under Construction")
+        input = st.text_input("Was wollen Sie für ein Bild generieren?")
+
+        if input:
+            client = OpenAI(api_key=st.session_state.api_key)
+            response = client.images.generate(
+                model="dall-e-3",
+                prompt=input,
+                size="1024x1024",
+                quality="standard",
+                n=1,
+            )
+
+            image_url = response.data[0].url
+
+            st.image(image_url)
 
 def connect_documents():
     """Functionality to connect documents."""
