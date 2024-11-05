@@ -501,13 +501,6 @@ def chat_bot():
 
             st.image(image_url)
 
-            btn = st.download_button(
-                label="Bilder herunterladen",
-                data=image_url,
-                file_name="picture.png",
-                mime="image/png",
-            )
-
 def connect_documents():
     """Functionality to connect documents."""
     st.write("## Dokumente verbinden")
