@@ -452,7 +452,7 @@ def chat_bot():
                 ],
             }
         
-        if chat_input:
+        
             client = OpenAI(api_key=st.session_state.api_key)
             messages_to_send = [
                 {
