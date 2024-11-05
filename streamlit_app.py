@@ -259,10 +259,10 @@ def main():
                 st.session_state.api_key = api_key_input
             else:
                 st.session_state.api_key = None
-                st.sidebar.warning("Please enter a valid API Key")
+                st.sidebar.warning("Bitte gültigen API Key eingeben")
         display_page()
     else:
-        st.sidebar.warning("Please enter valid password")
+        st.sidebar.warning("Bitte gültiges Passwort eingeben")
 
 
 # Additional Functionalities
