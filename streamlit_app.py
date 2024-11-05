@@ -494,7 +494,7 @@ def chat_bot():
                 prompt=input,
                 size="1024x1024",
                 quality="standard",
-                n=4,
+                n=1,
             )
 
             image_url = response.data[0].url
