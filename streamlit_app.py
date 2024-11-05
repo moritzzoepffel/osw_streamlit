@@ -494,12 +494,19 @@ def chat_bot():
                 prompt=input,
                 size="1024x1024",
                 quality="standard",
-                n=1,
+                n=4,
             )
 
             image_url = response.data[0].url
 
             st.image(image_url)
+
+            btn = st.download_button(
+                label="Bilder herunterladen",
+                data=image_url,
+                file_name="picture.png",
+                mime="image/png",
+            )
 
 def connect_documents():
     """Functionality to connect documents."""
