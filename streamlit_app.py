@@ -435,7 +435,7 @@ def chat_bot():
         messages = st.container(height=300)
         uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
-        st.write(uploaded_image)
+        st.write(chat_input)
     
         if uploaded_image is not None:
             uploaded_image_64 = base64.b64encode(uploaded_image.read()).decode("utf-8")
@@ -486,9 +486,6 @@ def chat_bot():
     
         if uploaded_image is not None:
             uploaded_image.close()
-
-        if chat_input is not None: 
-            del chat_input
 
     if option == "Text zu Bild":
         st.error("Under Construction")
