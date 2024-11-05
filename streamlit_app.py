@@ -484,7 +484,6 @@ def chat_bot():
             uploaded_image.close()
 
     if option == "Text zu Bild":
-        st.error("Under Construction")
         input = st.text_input("Was wollen Sie für ein Bild generieren?")
 
         if input:
