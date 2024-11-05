@@ -241,7 +241,7 @@ def display_images(df):
             )
             st.write(f"**{row['Produktname']}**")
             st.write(f"**{row['Produktpreis']}€**")
-            st.metric(label="Preis", value=f"**{row['Produktpreis']}€**", delta="0,2 €")
+            st.metric(label="Preis", value=f"{row['Produktpreis']}€", delta="0,2 €")
 
 
 # Main Logic
