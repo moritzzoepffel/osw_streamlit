@@ -112,7 +112,7 @@ def show_instructions():
     st.write("# Oswald KI App")
     st.write("## Anleitung")
     st.write(
-        "Willkommen zur Oswald KI App. Hier können Sie die XPLN temu Daten hochladen, Produkte anzeigen, Beschreibungen generieren und mit einem Chat-Bot interagieren.
+        "Willkommen zur Oswald KI App. Hier können Sie die XPLN temu Daten hochladen, Produkte anzeigen, Beschreibungen generieren und mit einem Chat-Bot interagieren."
     )
 
     st.write("### Schritte")
