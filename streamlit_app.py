@@ -288,7 +288,7 @@ def evaluate_images(df):
                     generate_description, client, row["Produktbild URL"], index
                 )
                 for index, row in df.iterrows()
-                if row["Ranking in der Kategorie"] in range(1, 6)
+                if row["Ranking in der Kategorie"] in range(1, 10)
             ]
             for i, future in enumerate(futures):
                 st.session_state.uploaded_df.at[future.result()[0], "Beschreibung"] = (
@@ -298,7 +298,7 @@ def evaluate_images(df):
         my_bar.progress(1.0)
         st.success("Beschreibungen wurden generiert")
         st.rerun()
-    st.write("### Beschreibungen der Top 50 Produkte")
+    st.write("### Beschreibungen der Top 100 Produkte")
     if st.button("Beschreibungen anzeigen"):
         cols = st.columns(3)
         products_with_descriptions = df[df["Beschreibung"] != ""]
@@ -434,8 +434,6 @@ def chat_bot():
     if option == "Bild hochladen":
         messages = st.container(height=300)
         uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
-
-        st.write(chat_input)
     
         if uploaded_image is not None:
             uploaded_image_64 = base64.b64encode(uploaded_image.read()).decode("utf-8")
@@ -454,8 +452,6 @@ def chat_bot():
                 ],
             }
         
-    
-
         if chat_input:
             client = OpenAI(api_key=st.session_state.api_key)
             messages_to_send = [
