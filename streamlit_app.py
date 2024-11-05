@@ -194,7 +194,7 @@ def display_all_categories(df):
         top_ranked = category_df[
             category_df["Ranking in der Kategorie"].isin([1, 2, 3])
         ]
-        display_images(top_ranked, TRUE)
+        display_images(top_ranked, True)
     st.write(df)
 
 
@@ -226,7 +226,7 @@ def display_category(df, category):
                 f"{format(top_ranked["Abverkaufsmenge"].mean(), ".2f")}",
             )
     st.divider()
-    display_images(top_ranked, FALSE)
+    display_images(top_ranked, False)
     st.write(top_ranked)
 
 
