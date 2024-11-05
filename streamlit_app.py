@@ -426,59 +426,64 @@ def chat_bot():
     if "chat" not in st.session_state:
         st.session_state.chat = []
 
-    messages = st.container(height=300)
-    uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+    option = st.selectbox(
+        "Wählen Sie einen Chatbot",
+        ("Bild hochladen", "Text zu Bild"),
+        )
 
-    if uploaded_image is not None:
-        uploaded_image_64 = base64.b64encode(uploaded_image.read()).decode("utf-8")
-        chat_input = "Was ist auf dem Bild zu sehen?"
-        input = {
-            "role": "user",
-            "content": [
-                {
-                    "type": "text",
-                    "text": "Was ist auf dem Bild zu sehen?",
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {"url": f"data:image/png;base64,{uploaded_image_64}"},
-                },
-            ],
-        }
-    else:
-        chat_input = st.chat_input("Nachricht eingegeben...")
-        input = {"role": "user", "content": chat_input}
-
-    if chat_input:
-        client = OpenAI(api_key=st.session_state.api_key)
-        messages_to_send = [
-            {
-                "role": "system",
-                "content": "Du bist ein nützlicher Assistent, der dabei hilft Produkte und deren Verpackungen zu beschreiben. Bei der Beschreibung ist zu unterscheiden zwischen der Beschreibung der Verpackung und dem Produkt selbst. Für die Beschreibung der Verpackung sind folgende Dimensionen wichtig: Form der Verpackung, Farbe, ggf. Muster/Bildelemente, die auf der Verpackung (und nicht auf dem Produkt) zu sehen sind, Anzahl der Produkte pro Verpackung. Für die Beschreibung des Produkts sind folgende Dimensionen wichtig: Form des Produkts, Farbe, ggf. Muster/Bildelemente des Produkts, andere besondere Details des Produkts (z.B. Perlen etc.) können genannt werden. Bitte bleibe sachlich und beschreibe nur das, was auf dem Bild zu sehen ist.",
+    if option == "Bild hochladen":
+        messages = st.container(height=300)
+        uploaded_image = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+    
+        if uploaded_image is not None:
+            uploaded_image_64 = base64.b64encode(uploaded_image.read()).decode("utf-8")
+            chat_input = "Was ist auf dem Bild zu sehen?"
+            input = {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Was ist auf dem Bild zu sehen?",
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/png;base64,{uploaded_image_64}"},
+                    },
+                ],
             }
-        ]
-        messages_to_send.append(input)
-        completion = client.chat.completions.create(
-            model="gpt-4o-mini", messages=messages_to_send
-        )
-        st.session_state.chat.append(
-            {"role": "user", "content": chat_input, "timestamp": "now"}
-        )
-        st.session_state.chat.append(
-            {"role": "system", "content": completion.choices[0].message.content}
-        )
+        
+    
 
-    for message in st.session_state.chat:
-        if message["role"] == "system":
-            messages.write(message["content"], unsafe_allow_html=True)
-        else:
-            messages.write(f"**Du:** {message['content']}")
+        if chat_input:
+            client = OpenAI(api_key=st.session_state.api_key)
+            messages_to_send = [
+                {
+                    "role": "system",
+                    "content": "Du bist ein nützlicher Assistent, der dabei hilft Produkte und deren Verpackungen zu beschreiben. Bei der Beschreibung ist zu unterscheiden zwischen der Beschreibung der Verpackung und dem Produkt selbst. Für die Beschreibung der Verpackung sind folgende Dimensionen wichtig: Form der Verpackung, Farbe, ggf. Muster/Bildelemente, die auf der Verpackung (und nicht auf dem Produkt) zu sehen sind, Anzahl der Produkte pro Verpackung. Für die Beschreibung des Produkts sind folgende Dimensionen wichtig: Form des Produkts, Farbe, ggf. Muster/Bildelemente des Produkts, andere besondere Details des Produkts (z.B. Perlen etc.) können genannt werden. Bitte bleibe sachlich und beschreibe nur das, was auf dem Bild zu sehen ist.",
+                }
+            ]
+            messages_to_send.append(input)
+            completion = client.chat.completions.create(
+                model="gpt-4o-mini", messages=messages_to_send
+            )
+            st.session_state.chat.append(
+                {"role": "user", "content": chat_input, "timestamp": "now"}
+            )
+            st.session_state.chat.append(
+                {"role": "system", "content": completion.choices[0].message.content}
+            )
 
-    if uploaded_image is not None:
-        st.image(uploaded_image, width=200)
-
-    if uploaded_image is not None:
-        uploaded_image.close()
+        for message in st.session_state.chat:
+            if message["role"] == "system":
+                messages.write(message["content"], unsafe_allow_html=True)
+            else:
+                messages.write(f"**Du:** {message['content']}")
+    
+        if uploaded_image is not None:
+            st.image(uploaded_image, width=200)
+    
+        if uploaded_image is not None:
+            uploaded_image.close()
 
 
 def connect_documents():
