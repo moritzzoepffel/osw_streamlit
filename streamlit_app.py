@@ -114,7 +114,6 @@ def show_instructions():
     st.write(
         "Willkommen zur Oswald KI App. Hier können Sie die XPLN temu Daten hochladen, Produkte anzeigen, Beschreibungen generieren und mit einem Chat-Bot interagieren."
     )
-
     st.write("### Schritte")
     col1, col2 = st.columns(2)
     with col1:
@@ -125,6 +124,10 @@ def show_instructions():
         st.link_button(
             "API Key generieren", "https://platform.openai.com/account/api-keys"
         )
+    if "api_key" not in st.session_state or st.session_state.api_key is None:
+        st.error("Bisher kein API Key eingegeben")
+    else:
+        st.success("API Key wurde eingegeben")
     st.write(
         "2. Wählen Sie auf der linken Seite in der Sidebar eine der Kategorien aus"
     )
