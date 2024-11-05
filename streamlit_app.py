@@ -194,7 +194,7 @@ def display_all_categories(df):
         top_ranked = category_df[
             category_df["Ranking in der Kategorie"].isin([1, 2, 3])
         ]
-        display_images(top_ranked)
+        display_images(top_ranked, TRUE)
     st.write(df)
 
 
@@ -226,11 +226,11 @@ def display_category(df, category):
                 f"{format(top_ranked["Abverkaufsmenge"].mean(), ".2f")}",
             )
     st.divider()
-    display_images(top_ranked)
+    display_images(top_ranked, FALSE)
     st.write(top_ranked)
 
 
-def display_images(df):
+def display_images(df, cat):
     """Display images of products in a DataFrame."""
     cols = st.columns(3)
     for i, row in df.iterrows():
@@ -240,7 +240,8 @@ def display_images(df):
                 unsafe_allow_html=True,
             )
             st.write(f"**{row['Produktname']}**")
-            st.metric(label="Preis", value=f"{row['Produktpreis']}€", delta="0,2 €")
+            if cat:
+                st.metric(label="Preis", value=f"{row['Produktpreis']}€", delta="0,2 €")
 
 
 # Main Logic
