@@ -11,7 +11,7 @@ PAGES = [
     "Daten hochladen",
     "Produkte Anzeigen",
     "Beschreibungen generieren",
-    #"Trendanalyse",
+    "Trendanalyse",
     "Chat Bot",
     #"Dokumente verbinden",
     "Daten herunterladen",
@@ -86,11 +86,11 @@ def display_page():
             display_data(st.session_state.uploaded_df)
         else:
             st.write("Bisher keine Daten hochgeladen")
-    #elif option == "Trendanalyse":
-    #    if st.session_state.uploaded_df is not None:
-    #        trend_analysis(st.session_state.uploaded_df)
-    #    else:
-    #        st.write("Bisher keine Daten hochgeladen")
+    elif option == "Trendanalyse":
+        if st.session_state.uploaded_df is not None:
+            trend_analysis(st.session_state.uploaded_df)
+        else:
+            st.write("Bisher keine Daten hochgeladen")
     elif option == "Chat Bot":
         chat_bot()
     #elif option == "Dokumente verbinden":
