@@ -336,10 +336,16 @@ def generate_description(client, img_url, index):
 def trend_analysis(df):
     """Perform trend analysis on the uploaded data."""
     st.write("## Trendanalyse")
+
+    st.write("Hallo")
+
     if "api_key" not in st.session_state or st.session_state.api_key is None:
         st.warning("Bitte zuerst API Key eingeben")
         return
     client = OpenAI(api_key=st.session_state.api_key)
+
+    
+
 
     st.write(
         "Hier kann eine Trendanalyse der hochgeladenen Produkte durchgeführt werden."
@@ -499,6 +505,7 @@ def chat_bot():
             image_url = response.data[0].url
 
             st.image(image_url)
+
 
 def connect_documents():
     """Functionality to connect documents."""
