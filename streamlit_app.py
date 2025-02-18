@@ -88,10 +88,10 @@ def display_page():
             st.write("Bisher keine Daten hochgeladen")
     elif option == "Trendanalyse":
         if st.session_state.uploaded_df is not None:
-            #trend_analysis(st.session_state.uploaded_df)
-            trend_analyse_self()
+            trend_analysis(st.session_state.uploaded_df)
         else:
-            st.write("Bisher keine Daten hochgeladen")
+            #st.write("Bisher keine Daten hochgeladen")
+            trend_analyse_self()
     elif option == "Chat Bot":
         chat_bot()
     #elif option == "Dokumente verbinden":
