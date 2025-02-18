@@ -410,6 +410,9 @@ def trend_analysis(df):
 def trend_analyse_self():
     st.write("## Trendanalyse")
 
+    if "api_key" not in st.session_state or st.session_state.api_key is None:
+        st.warning("Bitte zuerst API Key eingeben")
+        return
     client = OpenAI(api_key=st.session_state.api_key)
     
     if "api_key" not in st.session_state or st.session_state.api_key is None:
