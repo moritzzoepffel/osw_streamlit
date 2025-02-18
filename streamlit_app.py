@@ -312,7 +312,6 @@ def evaluate_images(df):
                 st.write(f"**{row['Produktname']}**")
                 with st.expander("Beschreibung"):
                     st.write(row["Beschreibung"])
-          
 
 
 def generate_description(client, img_url, index):
@@ -407,8 +406,11 @@ def trend_analysis(df):
             st.success("Analyse abgeschlossen")
             st.rerun()
 
-def trend_analyse_self(client):
+
+def trend_analyse_self():
     st.write("## Trendanalyse")
+
+    client = OpenAI(api_key=st.session_state.api_key)
     
     if "api_key" not in st.session_state or st.session_state.api_key is None:
         st.warning("Bitte zuerst API Key eingeben")
@@ -436,6 +438,7 @@ def trend_analyse_self(client):
 
         # Add OpenAI response to chat history
         st.session_state.messages.append({"role": "bot", "content": response})
+
 
 def generate_trend(client, category, category_df):
     """Generate trends for a category using OpenAI."""
@@ -478,6 +481,7 @@ def openai(client, message: str):
             .content[0]
             .text.value
         )
+
 
 def chat_bot():
     """Chat bot functionality using OpenAI."""
