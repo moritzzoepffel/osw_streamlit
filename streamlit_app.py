@@ -663,7 +663,7 @@ def download_data():
     st.write("## Daten herunterladen")
     st.write("Fertige Datensets herunterladen")
     csv_data = convert_df(st.session_state.uploaded_df)
-    #csv_trends = convert_df(st.session_state.trend_analysis)
+    csv_trends = convert_df(st.session_state.trend_analysis)
     col1, col2 = st.columns(2)
     with col1:
         st.download_button(
@@ -672,13 +672,13 @@ def download_data():
             file_name="data.csv",
             mime="text/csv",
         )
-    #with col2:
-    #    st.download_button(
-    #        label="Trendanalyse als csv herunterladen",
-    #        data=csv_trends,
-    #        file_name="trends.csv",
-    #        mime="text/csv",
-    #    )
+    with col2:
+        st.download_button(
+            label="Trendanalyse als csv herunterladen",
+            data=csv_trends,
+            file_name="trends.csv",
+            mime="text/csv",
+        )
 
 
 if __name__ == "__main__":
