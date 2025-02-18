@@ -88,7 +88,8 @@ def display_page():
             st.write("Bisher keine Daten hochgeladen")
     elif option == "Trendanalyse":
         if st.session_state.uploaded_df is not None:
-            trend_analysis(st.session_state.uploaded_df)
+            #trend_analysis(st.session_state.uploaded_df)
+            trend_analyse_self()
         else:
             st.write("Bisher keine Daten hochgeladen")
     elif option == "Chat Bot":
@@ -406,6 +407,35 @@ def trend_analysis(df):
             st.success("Analyse abgeschlossen")
             st.rerun()
 
+def trend_analyse_self(client):
+    st.write("## Trendanalyse")
+    
+    if "api_key" not in st.session_state or st.session_state.api_key is None:
+        st.warning("Bitte zuerst API Key eingeben")
+        return
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # React to user input
+    if prompt := st.chat_input("Wie kann ich Dir helfen?"):
+        # Display user message in chat message container
+        st.chat_message("user").markdown(prompt)
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+
+        # Get response from OpenAI
+        response = openai(client, prompt)
+
+        # Display OpenAI response in chat message container
+        st.chat_message("bot").markdown(response)
+
+        # Add OpenAI response to chat history
+        st.session_state.messages.append({"role": "bot", "content": response})
 
 def generate_trend(client, category, category_df):
     """Generate trends for a category using OpenAI."""
@@ -422,6 +452,32 @@ def generate_trend(client, category, category_df):
     completion = client.chat.completions.create(model="gpt-4o-mini", messages=messages)
     return category, completion.choices[0].message.content
 
+
+def openai(client, message: str):
+    client = client
+
+    if "assistant_id" not in st.session_state:
+        st.session_state.assistant_id = st.secrets["assistant_id"]
+
+    if "thread_id" not in st.session_state:
+        thread = client.beta.threads.create()
+        st.session_state.thread_id = thread.id
+
+    message = client.beta.threads.messages.create(
+        thread_id=st.session_state.thread_id, role="user", content=message
+    )
+
+    run = client.beta.threads.runs.create_and_poll(
+        thread_id=st.session_state.thread_id, assistant_id=st.session_state.assistant_id
+    )
+
+    if run.status == "completed":
+        return (
+            client.beta.threads.messages.list(thread_id=st.session_state.thread_id)
+            .data[0]
+            .content[0]
+            .text.value
+        )
 
 def chat_bot():
     """Chat bot functionality using OpenAI."""
