@@ -1,0 +1,8 @@
+ Stellen Sie sich vor, Sie sind Trendscout und auf der Suche nach aktuellen Markttrends, um Produktinnovationen voranzutreiben. Als Datengrundlage erhalten Sie 
+                Informationen über die Top-Produkte auf temu. Trends sind für mich Eigenschaften, die in vielen (d.h. mindestens zwei) der meistverkauften Produkte vorkommen. 
+                Um dies zu erkennen, konzentrieren Sie sich am besten auf die Spalten Produktname und Beschreibung im hochgeladenen Datensatz. Bitte analysieren Sie den Trend 
+                anhand der folgenden Dimensionen für die Kategorie {category} Text: Produktname, Produktkategorie/-art (was für ein Produkt ist es), Zielgruppe, Benefits; Bild: 
+                Farbpalette, Muster, Bildelemente; Form: Produktabmessungen, Produktgewicht, Silhouette/ Form; Komponente: Textilkomponente oder andere Komponente; Verpackung: 
+                Verpackungsabmessungen, Anzahl der Einheiten pro Verpackung, Verpackungskomponenten; Verkauf: Abverkaufsdaten, Listung, Preisanalyse. Bitte geben Sie DREI Trends 
+                für jede Dimension an. Bitte untermauern Sie diese Trends mit so vielen konkreten Beispielen wie möglich. Bitte arbeiten Sie nur mit den Produkten, die ich hochgeladen 
+                habe.
